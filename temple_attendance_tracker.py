@@ -12,7 +12,7 @@ curr_interval = f'{start.strftime("%m/%d")} - {now.strftime("%m/%d")}'
 
 
 def get_attendance_for_raids(config, known_player_alts):
-    guild_reports_url = 'https://vanilla.warcraftlogs.com/v1/reports/guild/Tenple/Mankrik/US?api_key=1ed54401421146e653b0e95e3eb575f6'
+    guild_reports_url = 'https://vanilla.warcraftlogs.com/v1/reports/guild/Tenple/Mankrik/US?api_key='
     reports = requests.get(guild_reports_url).json()
     output = {}
     for report in config['guild_report_ids']:
@@ -22,7 +22,7 @@ def get_attendance_for_raids(config, known_player_alts):
                 report_raid = raid
                 break
         end = report_info['end']
-        res = requests.get(f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{report}?end={end}&api_key=1ed54401421146e653b0e95e3eb575f6')
+        res = requests.get(f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{report}?end={end}&api_key={config['wcl_api_key']}')
         attendees = [unicodedata.normalize('NFD', item['name']).encode('ascii', 'ignore').decode('ascii') for item in res.json()['composition']]
         attendees = list(set(attendees + config['bench'].get(raid, [])))
         attendees = [known_player_alts[attendee] if attendee in known_player_alts else attendee for attendee in attendees]
