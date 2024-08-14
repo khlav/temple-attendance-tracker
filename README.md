@@ -8,7 +8,7 @@ To run this, you will need:
 * Git, in order to git clone the repository
 * A few python packages: requests, gspread, pandas
 
-#### Installing python
+### Installing python
 
 If you are not sure if you have python installed, you can check by opening a terminal window (use cmd.exe or powershell in Windows) and run
 ```console
@@ -23,9 +23,17 @@ Once install has completed, check it is working properly:
 python --version
 ```
 
-#### Installing required packages
+### Installing required packages
 
-#### Installing git
+Installing the required python packages should be pretty simple with pip.
+
+```console
+pip install requests
+pip install pandas
+pip install gspread
+```
+
+### Installing git
 
 ## Credentials
 
