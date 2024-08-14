@@ -22,7 +22,7 @@ def get_attendance_for_raids(config, known_player_alts):
                 report_raid = raid
                 break
         end = report_info['end']
-        res = requests.get(f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{report}?end={end}&api_key={config['wcl_api_key']}')
+        res = requests.get(f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{report}?end={end}&api_key=')
         attendees = [unicodedata.normalize('NFD', item['name']).encode('ascii', 'ignore').decode('ascii') for item in res.json()['composition']]
         attendees = list(set(attendees + config['bench'].get(raid, [])))
         attendees = [known_player_alts[attendee] if attendee in known_player_alts else attendee for attendee in attendees]
