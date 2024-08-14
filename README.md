@@ -35,6 +35,16 @@ pip install gspread
 
 ### Installing git
 
+This is needed to not only clone the repository to begin with, but will also allow you to keep up to date with any future changes.
+
+If you are on Windows and not a developer, there is a good chance Git is not installed. However, you can still check with:
+```console
+git --help
+```
+This is another tool that is probably best downloaded from the website: [https://git-scm.com/downloads](https://git-scm.com/downloads)
+Git doesn't seem to work well in Powershell without a special package posh-git, at least for me, but I've had success with running this and successive steps on cmd.exe.
+Once installed, check that the command works with `git --help`. 
+
 ## Credentials
 
 ## Running the Script
