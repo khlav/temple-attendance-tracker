@@ -47,4 +47,8 @@ Once installed, check that the command works with `git --help`.
 
 ## Credentials
 
+### Warcraft Logs
+
+### Google Sheets
+
 ## Running the Script
