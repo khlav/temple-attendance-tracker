@@ -109,5 +109,27 @@ not need to be updated.
 
 Everytime the script is run, you will however need to update the other values.
 
+#### Attendance file name
 
+Use `"Temple Attendance Script (Test)"` if you are still testing or trying out the script; use `"Temple Attendance Script (New)"` if you are confident everything is working.
+
+#### Guild reports
+
+Set to `true` (without quotes) if the report(s) is logged to the guild, `false` if logged to a user's personal account.
+
+#### Guild report IDs
+
+This is a list of report IDs logged to the guild **on the same day**.
+
+#### Non guild report ID
+
+This should only be populated when using a report not associated with the guild. Can only do one at a time.
+
+#### Non guild user
+
+This is the Warcraftlogs User name of the person who uploaded the report.
+
+#### Non guild raid name
+
+This is the name of the raid that the non-guild report is for. Acceptable values are `"Naxx"`, `"AQ40"`, `"BWL"`, and `"MC"`.
 
