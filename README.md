@@ -91,3 +91,23 @@ and save them to the same location.
 
 
 ## Running the Script
+
+It should be possible to run this script on either guild-logged raids, or individually logged raids that aren't associated with the guild. For guild-logged raids, the script can be run to update **one day of raiding**.
+For raids not logged to the guild, it can be run to add **one raid at a time**. 
+
+Updating the raid attendance should generally follow 3 steps:
+
+1. Updating the config file
+2. Updating the alts file
+3. Running the script
+
+### Updating the config file
+
+The repo comes with a file that is best used as an example and should be preserved as it is. Instead, create a copy of this file and name it `config.json` or whatever you prefer.
+In the credentials section above, we talked about how to get the warcraftlog API key and add it to the config. This value should be static every time the script is run and should
+not need to be updated.
+
+Everytime the script is run, you will however need to update the other values.
+
+
+
