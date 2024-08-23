@@ -39,7 +39,7 @@ In powershell or cmd.exe, navigate to the directory containing the script.
 
 Run 
 ```console
-python temple-attendance-script.py config.json alts.json
+python temple_attendance_tracker.py config.json alts.json
 ```
 
 Take a look at the spreadsheet Temple Attendance Sheet (Test) to make sure it looks how you would expect.
@@ -56,7 +56,7 @@ Follow the above instructions as before, but for the 8/20 raid.
 
 For the config file, you can either edit the same config file that you used before, or if you want to have a record of the info you used
 each time you can create a new one. Just make sure not to change the original `config_test.json` file, and remember to refer to the correct
-config file when running the script (i.e. `python temple-raid-attendance.py <correct config file> alts.json`. 
+config file when running the script (i.e. `python temple_attendance_tracker.py <correct config file> alts.json`. 
 
 This one is an example of a non-guild linked raid:
 ```console
