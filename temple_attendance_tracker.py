@@ -6,13 +6,18 @@ import requests
 import pandas as pd
 import unicodedata
 
+
 now = datetime.datetime.today()
 start = now - datetime.timedelta(days=43)
 curr_interval = f'{start.strftime("%m/%d")} - {now.strftime("%m/%d")}'
 
 
+def normalize_unicode_to_ascii(unicode_string):
+    return unicodedata.normalize('NFD', unicode_string).encode('ascii', 'ignore').decode('ascii')
+
+
 def get_attendance_for_raids(config, known_player_alts):
-    guild_reports_url = 'https://vanilla.warcraftlogs.com/v1/reports/guild/Tenple/Mankrik/US?api_key='
+    guild_reports_url = 'https://vanilla.warcraftlogs.com/v1/reports/guild/Tenple/Mankrik/US?api_key=' + config['wcl_api_key']
     reports = requests.get(guild_reports_url).json()
     output = {}
     for report in config['guild_report_ids']:
@@ -22,11 +27,30 @@ def get_attendance_for_raids(config, known_player_alts):
                 report_raid = raid
                 break
         end = report_info['end']
-        res = requests.get(f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{report}?end={end}&api_key={config['wcl_api_key']}')
-        attendees = [unicodedata.normalize('NFD', item['name']).encode('ascii', 'ignore').decode('ascii') for item in res.json()['composition']]
+        res = requests.get(
+            f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{report}?end={end}&api_key={config['wcl_api_key']}'
+        )
+        attendees = [normalize_unicode_to_ascii(item['name']) for item in res.json()['composition']]
         attendees = list(set(attendees + config['bench'].get(raid, [])))
         attendees = [known_player_alts[attendee] if attendee in known_player_alts else attendee for attendee in attendees]
         output[report_raid] = { attendee: 1/float(len(config['guild_report_ids'])) for attendee in attendees }
+    return output
+
+
+def get_attendance_for_raid_outside_guild(config, known_player_alts, num_raids=1):
+    user_reports_url = f'https://vanilla.warcraftlogs.com:443/v1/reports/user/{config["non_guild_user"]}?api_key={config["wcl_api_key"]}'
+    reports = requests.get(user_reports_url).json()
+    output = {}
+    report_info = [item for item in reports if item['id'] == config["non_guild_report_id"]][0]
+    end = report_info['end']
+    res = requests.get(
+        f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{config["non_guild_report_id"]}'
+        f'?end={end}&api_key=1ed54401421146e653b0e95e3eb575f6'
+    )
+    attendees = [normalize_unicode_to_ascii(item['name']) for item in res.json()['composition']]
+    attendees = list(set(attendees + config['bench'].get(config['non_guild_raid_name'], [])))
+    attendees = [known_player_alts[attendee] if attendee in known_player_alts else attendee for attendee in attendees]
+    output[config['non_guild_raid_name']] = { attendee: 1/float(num_raids) for attendee in attendees }
     return output
 
 
@@ -152,7 +176,9 @@ def main():
 
     final_df = pd.DataFrame(list(new_dict_all.values()))
 
-    final_df2 = final_df[['Character', 'Raid Count (6w)', 'Raid Attended (6w)', 'Attendance Pct (6w)', 'Raid Count', 'Raid Attended', 'Attendance Pct']]
+    final_df2 = final_df[
+        ['Character', 'Raid Count (6w)', 'Raid Attended (6w)', 'Attendance Pct (6w)', 'Raid Count', 'Raid Attended', 'Attendance Pct']
+    ]
     final_df2 = final_df2.sort_values(['Attendance Pct (6w)', 'Attendance Pct'], ascending=[False, False])
 
     final_sheet = sh.worksheet("Scheduled Raid Attendance - 6 weeks")
