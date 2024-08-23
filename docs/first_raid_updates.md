@@ -20,11 +20,11 @@ Edit it to be relevant to the 8/19 raid (but use the test attendance file first)
 ```console
 {
     "attendance_file_name": "Temple Attendance Sheet (Test)",
-    "guild_reports": true,
-    "guild_report_ids": ["c8Bxgt3jGY6VzJC4"],
-    "non_guild_report_id": [],
-    "non_guild_user": null,
-    "non_guild_raid_name": null,
+    "guild_reports": false,
+    "guild_report_ids": [],
+    "non_guild_report_id": "c8Bxgt3jGY6VzJC4",
+    "non_guild_user": "Rapidfountain",
+    "non_guild_raid_name": "Naxx",
     "raid_date": "2024-08-19",
     "bench": {
         "Naxx": ["Eurymedon"]

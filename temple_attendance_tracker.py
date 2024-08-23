@@ -45,7 +45,7 @@ def get_attendance_for_raid_outside_guild(config, known_player_alts, num_raids=1
     end = report_info['end']
     res = requests.get(
         f'https://www.warcraftlogs.com:443/v1/report/tables/summary/{config["non_guild_report_id"]}'
-        f'?end={end}&api_key=1ed54401421146e653b0e95e3eb575f6'
+        f'?end={end}&api_key={config["wcl_api_key"]}'
     )
     attendees = [normalize_unicode_to_ascii(item['name']) for item in res.json()['composition']]
     attendees = list(set(attendees + config['bench'].get(config['non_guild_raid_name'], [])))
@@ -101,7 +101,10 @@ def main():
     with open(argv[2]) as alts_file:
         alts_dict = json.load(alts_file)
 
-    result = get_attendance_for_raids(config_dict, alts_dict)
+    if config_dict['guild_reports']:
+        result = get_attendance_for_raids(config_dict, alts_dict)
+    else:
+        result = get_attendance_for_raid_outside_guild(config_dict, alts_dict)
 
     gc = gspread.oauth()
     sh = gc.open(config_dict['attendance_file_name'])
