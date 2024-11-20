@@ -22,7 +22,10 @@ def get_attendance_for_raids(config, known_player_alts):
     output = {}
     for report in config['guild_report_ids']:
         report_info = [item for item in reports if item['id'] == report][0]
-        for raid in ['MC', 'BWL', 'Naxx', 'AQ40']:
+        for raid in [
+        #    'MC', 
+            'BWL', 'Naxx', 'AQ40'
+        ]:
             if raid in report_info['title']:
                 report_raid = raid
                 break
@@ -55,7 +58,7 @@ def get_attendance_for_raid_outside_guild(config, known_player_alts, num_raids=1
 
 
 def update_per_raid_attendance(raid_date, new_attendance_dict, sh):
-    for raid in ['Naxx', 'AQ40', 'BWL']:
+    for raid in ['Naxx', 'AQ40']:  # BWL and MC removed for now due to no new raids in past 6 weeks
         sheet_name = raid + ' Attendance'
         summary_sheet_name = raid + ' Summary - 6 weeks'
         worksheet = sh.worksheet(sheet_name)
@@ -114,20 +117,26 @@ def main():
     naxx_all = sh.worksheet("Naxx Attendance")
     aq40_all = sh.worksheet("AQ40 Attendance")
     bwl_all = sh.worksheet("BWL Attendance")
+    print(pd.DataFrame(bwl_all.get_all_records()))
     mc_all = sh.worksheet("MC Attendance")
     naxx_six = sh.worksheet("Naxx Summary - 6 weeks")
     aq40_six = sh.worksheet("AQ40 Summary - 6 weeks")
-    bwl_six = sh.worksheet("BWL Summary - 6 weeks")
+    #bwl_six = sh.worksheet("BWL Summary - 6 weeks")
     #mc_six = sh.worksheet("MC Summary - 6 weeks")
 
     max_val_all = 0
+    print(1)
     for sheet in [naxx_all, aq40_all, bwl_all, mc_all]:
+        print(sheet)
         df = pd.DataFrame(sheet.get_all_records())
         max_val_all += sum(df.max(axis=0, numeric_only=True))
     total_raids = round(max_val_all)
 
     max_val_6w = 0
-    for sheet in [naxx_six, aq40_six, bwl_six]:
+    for sheet in [
+        naxx_six, aq40_six, 
+        # bwl_six
+    ]:
         df = pd.DataFrame(sheet.get_all_records())
         max_val_6w += max(df['Raid Count'])
         #cols_list = sheet.row_values(1)
@@ -141,7 +150,7 @@ def main():
     mc_dict = mc_all.get_all_records()
     naxx_6w_dict = naxx_six.get_all_records()
     aq40_6w_dict = aq40_six.get_all_records()
-    bwl_6w_dict = bwl_six.get_all_records()
+    #bwl_6w_dict = bwl_six.get_all_records()
     #mc_6w_dict = mc_six.get_all_records()
 
     new_dict_all = {}
@@ -159,7 +168,10 @@ def main():
             new_dict_all[char_dict['Character']]['Raid Attended'] += attendance_val
             new_dict_all[char_dict['Character']]['Attendance Pct'] += attendance_val*100/float(total_raids)
 
-    for attendance_dict in [naxx_6w_dict, aq40_6w_dict, bwl_6w_dict]:
+    for attendance_dict in [
+        naxx_6w_dict, aq40_6w_dict, 
+        # bwl_6w_dict
+    ]:
         for char_dict in attendance_dict:
             if char_dict['Character'] not in new_dict_all:
                 print('CHARACTER NOT FOUND')
