@@ -1,0 +1,13 @@
+{
+    "attendance_file_name": "Temple Attendance Sheet (Test)",
+    "guild_reports": false,
+    "guild_report_ids": [],
+    "non_guild_report_id": "c8Bxgt3jGY6VzJC4",
+    "non_guild_user": "Rapidfountain",
+    "non_guild_raid_name": "Naxx",
+    "raid_date": "2024-08-19",
+    "bench": {
+        "Naxx": ["Eurymedon"]
+    },
+    "wcl_api_key": ""
+}
