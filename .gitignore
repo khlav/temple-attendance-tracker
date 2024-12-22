@@ -1,2 +1,36 @@
 config_2024*.json
 old_configs/*
+
+
+## Boilerplate ignores
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+
+
+# Environment variables and secrets
+*.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and debug output
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*.orig
+
+# IDE settings
+.vscode/
+.idea/
